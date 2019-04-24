@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 
@@ -7,7 +8,7 @@ namespace Zombie
 {
     class SingleBullet : IBullet
     {
-        public SingleBullet()
+        public SingleBullet(BulletBaseAttr ar,Point position, Point targetPosition):base(ar,position, targetPosition)
         {
 
         }

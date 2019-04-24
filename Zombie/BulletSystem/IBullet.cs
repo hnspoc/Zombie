@@ -13,7 +13,9 @@ namespace Zombie
         private bool activa;
         private Point position;
         private Point targetPosition;
-        private Rectangle rc;
+        private Rectangle area;
+        private int imgheight;
+        private int imgwidth;
         private int directionX;
         private int directionY;
         private AnimateImage mAnim;
@@ -51,9 +53,14 @@ namespace Zombie
             }
         }
 
-        public IBullet( Point position, Point targetPosition)
+        public IBullet(BulletBaseAttr ar, Point position, Point targetPosition)
         {
+            this.attr = ar;
             SetActive(position,targetPosition);
+            Image bm=Image.FromFile(attr.Flyimg);
+            this.imgheight = bm.Height;
+            this.imgwidth = bm.Width;
+            bm.Dispose();
         }
         public void SetActive(Point position, Point targetPosition)
         {
@@ -74,10 +81,11 @@ namespace Zombie
                 directionY = 0;
 
             if (directionX == -1)
-                rc = new Rectangle(targetPosition.X, targetPosition.Y, position.X - targetPosition.X, position.Y - targetPosition.Y);
+                area = new Rectangle(targetPosition.X, targetPosition.Y, position.X - targetPosition.X, position.Y - targetPosition.Y);
             else
-                rc = new Rectangle(position.X, position.Y, targetPosition.X - position.X, targetPosition.Y - position.Y);
+                area = new Rectangle(position.X, position.Y, targetPosition.X - position.X, targetPosition.Y - position.Y);
             Activa = true;
+            
         }
 
         public abstract void Attack(ICharacter target);
@@ -95,10 +103,28 @@ namespace Zombie
             position.Y = position.Y + attr.MoveSpeed * directionY;
             PlayAnim(attr.Flyimg);
         }
+        public bool  CheckCross(Rectangle r1, Rectangle r2)
+        {
+            PointF c1 = new PointF(r1.Left + r1.Width / 2.0f, r1.Top + r1.Height / 2.0f);
+            PointF c2 = new PointF(r2.Left + r2.Width / 2.0f, r2.Top + r2.Height / 2.0f);
+            return (Math.Abs(c1.X - c2.X) <= r1.Width / 2.0 + r2.Width / 2.0 && Math.Abs(c2.Y - c1.Y) <= r1.Height / 2.0 + r2.Height / 2.0);
+        }
+        public void UpdateCollsion(List<ICharacter> targets)
+        {
+            Rectangle rc = new Rectangle(position.X, position.Y, imgwidth, imgheight);
+            foreach (ICharacter item in targets)
+            {
+                if(CheckCross(rc, item.box))
+                {
+                    activa = false;
+                }
+
+            }
+        }
         public void Update()
         {
-            
-            if (rc.Contains(position))
+            if (!activa) return;
+            if (area.Contains(position))
             {
                 FlyTo();
             }
