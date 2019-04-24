@@ -18,6 +18,8 @@ namespace Zombie
         protected string attackimg;
         protected string chaseimg;
         protected string idleimg;
+        protected int imgheight;
+        protected int imgwidth;
 
         public ICharacterAttr Attr { set { attr = value; } get { return attr; } }
         public bool canDestroy { get { return mCanDestroy; } }
@@ -29,6 +31,23 @@ namespace Zombie
         public int PosRow {
             get { return posRow; }
             set {posRow = value;}
+        }
+
+        public int Imgheight
+        {
+            get
+            {
+                return imgheight;
+            }
+
+        }
+
+        public int Imgwidth
+        {
+            get
+            {
+                return imgwidth;
+            }
         }
 
         public ICharacter()

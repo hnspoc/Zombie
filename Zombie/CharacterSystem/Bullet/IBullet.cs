@@ -20,8 +20,13 @@ namespace Zombie
         private int directionY;
         private AnimateImage mAnim;
         private string currimg;
+        protected float mDestroyTimer;
+        private bool mCanDestroy;
         public AnimateImage MAnim
         {
+            get {
+                return mAnim;
+            }
             set
             {
                 mAnim = value;
@@ -53,17 +58,41 @@ namespace Zombie
             }
         }
 
-        public IBullet(BulletBaseAttr ar, Point position, Point targetPosition)
+        public bool MCanDestroy
         {
-            this.attr = ar;
+            get
+            {
+                return mCanDestroy;
+            }
+        }
+
+        public Point Position
+        {
+            get
+            {
+                return position;
+            }
+
+            set
+            {
+                position = value;
+            }
+        }
+
+        public IBullet()
+        {
+            /*this.attr = ar;
             SetActive(position,targetPosition);
             Image bm=Image.FromFile(attr.Flyimg);
             this.imgheight = bm.Height;
             this.imgwidth = bm.Width;
-            bm.Dispose();
+            bm.Dispose();*/
         }
         public void SetActive(Point position, Point targetPosition)
         {
+            mDestroyTimer = 2;
+            mCanDestroy = false;
+
             this.position = position;
             this.targetPosition = targetPosition;
             if (position.X - targetPosition.X > 0)
@@ -84,11 +113,19 @@ namespace Zombie
                 area = new Rectangle(targetPosition.X, targetPosition.Y, position.X - targetPosition.X, position.Y - targetPosition.Y);
             else
                 area = new Rectangle(position.X, position.Y, targetPosition.X - position.X, targetPosition.Y - position.Y);
+            Image bm = Image.FromFile(attr.Flyimg);
+            this.imgheight = bm.Height;
+            this.imgwidth = bm.Width;
+            bm.Dispose();
             Activa = true;
             
         }
 
-        public abstract void Attack(ICharacter target);
+        public virtual void Attack(ICharacter target)
+        {
+            PlayAnim(attr.Boomimg);//播放动画
+            target.UnderAttack(attr.Damage);
+        }
         public void PlayAnim(string animName)
         {
             if (currimg != animName)
@@ -109,21 +146,30 @@ namespace Zombie
             PointF c2 = new PointF(r2.Left + r2.Width / 2.0f, r2.Top + r2.Height / 2.0f);
             return (Math.Abs(c1.X - c2.X) <= r1.Width / 2.0 + r2.Width / 2.0 && Math.Abs(c2.Y - c1.Y) <= r1.Height / 2.0 + r2.Height / 2.0);
         }
-        public void UpdateCollsion(List<ICharacter> targets)
+        public virtual void UpdateCollsion(List<ICharacter> targets)
         {
             Rectangle rc = new Rectangle(position.X, position.Y, imgwidth, imgheight);
             foreach (ICharacter item in targets)
             {
-                if(CheckCross(rc, item.box))
+                if(CheckCross(rc, new Rectangle(item.Position.X,item.Position.Y,item.Imgwidth,item.Imgheight)))
                 {
+                    Attack(item);
                     activa = false;
+                    break;
                 }
-
             }
         }
         public void Update()
         {
-            if (!activa) return;
+            if (!activa)
+            {
+                mDestroyTimer -= 0.5f;
+                if (mDestroyTimer <= 0)
+                {
+                    mCanDestroy = true;
+                }
+                return;
+            }
             if (area.Contains(position))
             {
                 FlyTo();

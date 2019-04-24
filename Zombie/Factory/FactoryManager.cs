@@ -12,6 +12,7 @@ namespace Zombie
         private static ICharacterFactory enemyFactory = null;
         private static IAttrFactory attrFactory = null;
         private static BulletAttrFactory bulletAttrFactory = null;
+        private static IBulletFactory bulletFactory = null;
         public static BulletAttrFactory BulletAttrFactory
         {
             get
@@ -56,6 +57,18 @@ namespace Zombie
                     enemyFactory = new EnemyFactory();
                 }
                 return enemyFactory;
+            }
+        }
+
+        public static IBulletFactory BulletFactory
+        {
+            get
+            {
+                if (bulletFactory == null)
+                {
+                    bulletFactory = new IBulletFactory();
+                }
+                return bulletFactory;
             }
         }
     }

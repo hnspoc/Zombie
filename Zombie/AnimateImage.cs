@@ -8,12 +8,19 @@ namespace Zombie
 {
     public class AnimateImage
     {
-        ICharacter iCharacter;
+        ICharacter iCharacter=null;
+        IBullet iBullt = null;
         Bitmap image;
         Form iform;
         bool mCanAnimate;
         bool currentlyAnimating = false;
-        
+
+        public AnimateImage(object oj, IBullet iBullt)
+        {
+            this.iBullt = iBullt;
+            mCanAnimate = false;
+            iform = (Form)oj;
+        }
         public AnimateImage(object oj, ICharacter iCharacter)
         {
             this.iCharacter = iCharacter;
@@ -58,7 +65,10 @@ namespace Zombie
             {
                 ImageAnimator.UpdateFrames();
                 //g.DrawImage(image, iCharacter.Position.X, iCharacter.Position.Y, image.Width,image.Height);
-                g.DrawImage(image, iCharacter.Position.X, iCharacter.Position.Y);
+                if(iCharacter!=null)
+                    g.DrawImage(image, iCharacter.Position.X, iCharacter.Position.Y);
+                else
+                    g.DrawImage(image, iBullt.Position.X, iBullt.Position.Y);
             }
         }
     }

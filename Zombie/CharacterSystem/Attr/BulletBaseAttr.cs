@@ -5,6 +5,10 @@ using System.Text;
 
 namespace Zombie
 {
+    public enum Bulletype
+    {
+        single
+    }
     public class BulletBaseAttr
     {
         private int moveSpeed;
@@ -12,9 +16,11 @@ namespace Zombie
         private int range;
         private string flyimg;
         private string boomimg;
+        private Bulletype mtype;
 
-        public BulletBaseAttr(int speed,int damage,int range,string flyimg,string boomimg)
+        public BulletBaseAttr(Bulletype itype,int speed,int damage,int range,string flyimg,string boomimg)
         {
+            this.mtype = itype;
             this.moveSpeed = speed;
             this.damage = damage;
             this.range = range;

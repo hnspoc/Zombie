@@ -18,7 +18,7 @@ namespace Zombie
         }
         public override void Attack(ICharacter target)
         {
-
+            GameFacade.Insance.GetBullet(typeof(SingleBullet), Position, new Point(1200, Position.Y),GameFacade.Insance.Currform);
         }
         protected override void PlaySound()
         {

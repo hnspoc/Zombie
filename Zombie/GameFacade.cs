@@ -64,6 +64,10 @@ namespace Zombie
         {
             mCharacterSystem.RemoveBotany (botany);
         }
+        public void AddBullet(IBullet bullet)
+        {
+            mCharacterSystem.AddBullt(bullet);
+        }
         public void AddEnemy(IEnemy enemy)
         {
             mCharacterSystem.AddEnemy(enemy);
@@ -83,6 +87,13 @@ namespace Zombie
         public void NotifySubject(GameEventType eventType)
         {
             mGameEventSystem.NotifySubject(eventType);
+        }
+        public IBullet GetBullet(Type t,Point position, Point targetPosition, object fm)
+        {
+            IBullet blt= mCharacterSystem.GetBullet(t);
+            if(blt == null && t.Name == "SingleBullet")
+                blt = FactoryManager.BulletFactory.CreateBullet<SingleBullet>(position, targetPosition, fm);
+            return blt;
         }
     }
 }

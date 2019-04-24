@@ -65,9 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimateImage.cs" />
-    <Compile Include="BulletSystem\BulletSystem.cs" />
-    <Compile Include="BulletSystem\IBullet.cs" />
-    <Compile Include="BulletSystem\SingleBullet.cs" />
+    <Compile Include="CharacterSystem\Bullet\IBullet.cs" />
+    <Compile Include="CharacterSystem\Bullet\SingleBullet.cs" />
     <Compile Include="CampSystem\CampSystem.cs" />
     <Compile Include="CampSystem\Command\ITrainCommand.cs" />
     <Compile Include="CampSystem\Command\TrainBotanyCommand.cs" />
@@ -76,6 +75,9 @@
     <Compile Include="CharacterSystem\Attr\CharacterBaseAttr.cs" />
     <Compile Include="CharacterSystem\Attr\ICharacterAttr.cs" />
     <Compile Include="Factory\Bullet\BulletAttrFactory.cs" />
+    <Compile Include="Factory\Bullet\BulletBuilder.cs" />
+    <Compile Include="Factory\Bullet\BulletBuilderDirector.cs" />
+    <Compile Include="Factory\Bullet\IBulletFactory.cs" />
     <Compile Include="Factory\Character\BotanyBuilder.cs" />
     <Compile Include="Factory\Character\EnemyBuilder.cs" />
     <Compile Include="GameFacade.cs" />

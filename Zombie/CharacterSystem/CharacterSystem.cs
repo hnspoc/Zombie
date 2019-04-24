@@ -10,7 +10,13 @@ namespace Zombie
     {
         private List<ICharacter> mEnemys = new List<ICharacter>();
         private List<ICharacter> mBotanys = new List<ICharacter>();
+        private List<IBullet> launchhouse = new List<IBullet>();
+        private List<IBullet> holehouse = new List<IBullet>();
 
+        public void AddBullt(IBullet bt)
+        {
+            launchhouse.Add(bt);
+        }
         public void AddEnemy(IEnemy enemy)
         {
             mEnemys.Add(enemy);
@@ -37,14 +43,19 @@ namespace Zombie
             {
                 s.MAnim.Animatetion(g);
             }
+            foreach (IBullet e in launchhouse)
+            {
+                e.MAnim.Animatetion(g);
+            }
         }
         public override void Update()
         {
             UpdateEnemy();
             UpdateBotanys();
-
+            UpdateBullet();
             RemoveCharacterIsKilled(mEnemys);
             RemoveCharacterIsKilled(mBotanys);
+            RemoveBulletIsOut();
         }
         private void UpdateEnemy()
         {
@@ -62,6 +73,39 @@ namespace Zombie
                 s.UpdateFSMAI(mEnemys);
             }
         }
+        private void UpdateBullet()
+        {
+            foreach (IBullet e in launchhouse)
+            {
+                e.Update();
+                e.UpdateCollsion(mEnemys);
+            }
+        }
+        private void RemoveBulletIsOut()
+        {
+            
+                //List<IBullet> canDestroyes = new List<IBullet>();
+                foreach (IBullet bullet in launchhouse)
+                {
+                    if (bullet.MCanDestroy)
+                    {
+                        //canDestroyes.Add(bullet);
+                        holehouse.Add(bullet);
+                    }
+                }
+                foreach (IBullet bullet in holehouse)
+                {
+
+                    launchhouse.Remove(bullet);
+                }
+                /*if (bullet.MCanDestroy)
+                {
+                    //移动到工厂
+                    holehouse.Add(bullet);
+                    launchhouse.Remove(bullet);
+                }*/
+           
+        }
         private void RemoveCharacterIsKilled(List<ICharacter> characters)
         {
             List<ICharacter> canDestroyes = new List<ICharacter>();
@@ -78,6 +122,19 @@ namespace Zombie
                 characters.Remove(character);
             }
         }
-        
+        public IBullet GetBullet(Type t)
+        {
+            if(holehouse.Count==0)
+            return null;
+            foreach (IBullet item in holehouse)
+            {
+                if(item.GetType()==t)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
     }
 }
