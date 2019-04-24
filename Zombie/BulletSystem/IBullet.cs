@@ -10,6 +10,7 @@ namespace Zombie
     {
         private int moveSpeed;
         private int damage;
+        private int range;
         protected bool mCanDestroy = false;
         private Point position;
         private int posRow;
