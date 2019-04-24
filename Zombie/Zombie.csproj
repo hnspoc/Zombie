@@ -65,14 +65,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimateImage.cs" />
-    <Compile Include="BulletSystem\BulletFSMSystem.cs" />
+    <Compile Include="BulletSystem\BulletSystem.cs" />
     <Compile Include="BulletSystem\IBullet.cs" />
+    <Compile Include="BulletSystem\SingleBullet.cs" />
     <Compile Include="CampSystem\CampSystem.cs" />
     <Compile Include="CampSystem\Command\ITrainCommand.cs" />
     <Compile Include="CampSystem\Command\TrainBotanyCommand.cs" />
     <Compile Include="CampSystem\ICamp.cs" />
+    <Compile Include="CharacterSystem\Attr\BulletBaseAttr.cs" />
     <Compile Include="CharacterSystem\Attr\CharacterBaseAttr.cs" />
     <Compile Include="CharacterSystem\Attr\ICharacterAttr.cs" />
+    <Compile Include="Factory\Bullet\BulletAttrFactory.cs" />
     <Compile Include="Factory\Character\BotanyBuilder.cs" />
     <Compile Include="Factory\Character\EnemyBuilder.cs" />
     <Compile Include="GameFacade.cs" />
