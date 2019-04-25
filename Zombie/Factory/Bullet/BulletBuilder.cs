@@ -25,12 +25,14 @@ namespace Zombie
         {
             AnimateImage anmin = new AnimateImage(mForm, mBullet);
             mBullet.MAnim = anmin;
+            anmin.changeImage(mBullet.Attr.Flyimg);
+
         }
         public  void AddBulletAtrr()
         {
             BulletBaseAttr attr = FactoryManager.BulletAttrFactory.GetCharacterBaseAttr(mT);
             mBullet.Attr = attr;
-            mBullet.SetActive(position, position);
+            mBullet.SetActive(position, targetPosition);
         }
         public  void AddInCharacterSystem()
         {

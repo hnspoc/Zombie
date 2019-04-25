@@ -17,6 +17,11 @@ namespace Zombie
         {
             launchhouse.Add(bt);
         }
+        public void RemoveBullt(IBullet bt)
+        {
+            launchhouse.Remove(bt);
+            holehouse.Add(bt);
+        }
         public void AddEnemy(IEnemy enemy)
         {
             mEnemys.Add(enemy);
@@ -84,26 +89,21 @@ namespace Zombie
         private void RemoveBulletIsOut()
         {
             
-                //List<IBullet> canDestroyes = new List<IBullet>();
+                List<IBullet> canDestroyes = new List<IBullet>();
                 foreach (IBullet bullet in launchhouse)
                 {
                     if (bullet.MCanDestroy)
                     {
-                        //canDestroyes.Add(bullet);
+                        canDestroyes.Add(bullet);
                         holehouse.Add(bullet);
                     }
                 }
-                foreach (IBullet bullet in holehouse)
+                foreach (IBullet bullet in canDestroyes)
                 {
 
                     launchhouse.Remove(bullet);
                 }
-                /*if (bullet.MCanDestroy)
-                {
-                    //移动到工厂
-                    holehouse.Add(bullet);
-                    launchhouse.Remove(bullet);
-                }*/
+                
            
         }
         private void RemoveCharacterIsKilled(List<ICharacter> characters)
@@ -126,10 +126,12 @@ namespace Zombie
         {
             if(holehouse.Count==0)
             return null;
+
             foreach (IBullet item in holehouse)
             {
                 if(item.GetType()==t)
                 {
+                    holehouse.Remove(item);
                     return item;
                 }
             }

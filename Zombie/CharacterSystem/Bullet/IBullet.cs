@@ -90,7 +90,7 @@ namespace Zombie
         }
         public void SetActive(Point position, Point targetPosition)
         {
-            mDestroyTimer = 2;
+            mDestroyTimer = 1f;
             mCanDestroy = false;
 
             this.position = position;
@@ -112,7 +112,7 @@ namespace Zombie
             if (directionX == -1)
                 area = new Rectangle(targetPosition.X, targetPosition.Y, position.X - targetPosition.X, position.Y - targetPosition.Y);
             else
-                area = new Rectangle(position.X, position.Y, targetPosition.X - position.X, targetPosition.Y - position.Y);
+                area = new Rectangle(position.X-1, position.Y-1, targetPosition.X - position.X, targetPosition.Y - position.Y+2);
             Image bm = Image.FromFile(attr.Flyimg);
             this.imgheight = bm.Height;
             this.imgwidth = bm.Width;
@@ -148,13 +148,15 @@ namespace Zombie
         }
         public virtual void UpdateCollsion(List<ICharacter> targets)
         {
-            Rectangle rc = new Rectangle(position.X, position.Y, imgwidth, imgheight);
+            if (!activa) return;
+            Rectangle rc = new Rectangle(position.X+imgwidth/2, position.Y+imgheight/2, imgwidth/2, imgheight/2);
             foreach (ICharacter item in targets)
             {
-                if(CheckCross(rc, new Rectangle(item.Position.X,item.Position.Y,item.Imgwidth,item.Imgheight)))
+                if(CheckCross(rc, new Rectangle(item.Position.X+ item.Imgwidth / 2+10, item.Position.Y,item.Imgwidth/2,item.Imgheight)))
                 {
                     Attack(item);
                     activa = false;
+                    //GameFacade.Insance.RemoveBullet(this);
                     break;
                 }
             }

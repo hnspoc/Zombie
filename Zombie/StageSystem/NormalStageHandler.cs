@@ -12,7 +12,7 @@ namespace Zombie
         private int mCount;
         private Point mPosition;
         private float speed;
-        private int mSpawnTime = 3;
+        private int mSpawnTime = 5;
         private float mSpawnTimer = 0;
         private int mCountSpawned = 0;
         public NormalStageHandler(StageSystem stageSystem, int lv, int countToFinished, CharacterName et, int count, float speed)

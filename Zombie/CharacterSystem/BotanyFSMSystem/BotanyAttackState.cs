@@ -7,8 +7,8 @@ namespace Zombie
 {
     public class BotanyAttackState : IBotanyState
     {
-        private float mAttackTime = 1;
-        private float mAttackTimer = 1;
+        private float mAttackTime = 5;
+        private float mAttackTimer = 0;
 
         public BotanyAttackState(BotanyFSMSytem fsm, ICharacter c) : base(fsm, c)
         {
@@ -22,16 +22,26 @@ namespace Zombie
             mAttackTimer += 0.5f;
             if (mAttackTimer >= mAttackTime)
             {
-                mCharacter.Attack(targets[0]);
+                mCharacter.Attack(null);
                 mAttackTimer = 0;
             }
         }
 
         public override void Reason(List<ICharacter> targets)
         {
-            if (targets == null || targets.Count == 0)
+            bool flag = true;
+            foreach (ICharacter item in targets)
             {
-                mFSM.PerformTransition(BotanyTransition.NoEnmey); return;
+                if (item.PosRow == mCharacter.PosRow)
+                {
+                    flag = false;
+                    break;
+                }
+            }
+
+            if (flag)
+            {
+                mFSM.PerformTransition(BotanyTransition.NoEnmey);
             }
         }
     }

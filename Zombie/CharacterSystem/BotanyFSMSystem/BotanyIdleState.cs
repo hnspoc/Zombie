@@ -18,10 +18,16 @@ namespace Zombie
 
         public override void Reason(List<ICharacter> targets)
         {
-            if (targets != null && targets.Count > 0)
+            if (targets.Count == 0) return;
+            foreach (ICharacter item in targets)
             {
-                mFSM.PerformTransition(BotanyTransition.SeeEnemy);
+                if(item.PosRow == mCharacter.PosRow)
+                {
+                    mFSM.PerformTransition(BotanyTransition.SeeEnemy);
+                    return;
+                }
             }
+            
         }
     }
 }

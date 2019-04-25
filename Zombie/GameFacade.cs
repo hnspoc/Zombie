@@ -68,6 +68,10 @@ namespace Zombie
         {
             mCharacterSystem.AddBullt(bullet);
         }
+        public void RemoveBullet(IBullet bullet)
+        {
+            mCharacterSystem.RemoveBullt(bullet);
+        }
         public void AddEnemy(IEnemy enemy)
         {
             mCharacterSystem.AddEnemy(enemy);
@@ -91,9 +95,18 @@ namespace Zombie
         public IBullet GetBullet(Type t,Point position, Point targetPosition, object fm)
         {
             IBullet blt= mCharacterSystem.GetBullet(t);
-            if(blt == null && t.Name == "SingleBullet")
+            if (blt != null)
+            {
+                mCharacterSystem.AddBullt(blt);
+                blt.SetActive(position, targetPosition);
+                //System.Diagnostics.Debug.WriteLine(false, "重复利用子弹");
+            }
+            if (blt == null && t.Name == "SingleBullet")
+            {
+                //System.Diagnostics.Debug.WriteLine(false, "生产子弹");
                 blt = FactoryManager.BulletFactory.CreateBullet<SingleBullet>(position, targetPosition, fm);
-            return blt;
+            }
+                return blt;
         }
     }
 }

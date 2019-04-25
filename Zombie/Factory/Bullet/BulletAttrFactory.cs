@@ -15,7 +15,7 @@ namespace Zombie
         private void InitBulletBaseAttr()
         {
             mBulletBaseAttrDict = new Dictionary<Type, BulletBaseAttr>();
-            mBulletBaseAttrDict.Add(typeof(SingleBullet), new BulletBaseAttr(Bulletype.single,2, 10, 0, "images//Plants//PB00.gif", "images//Plants//PeaBulletHit.gif"));
+            mBulletBaseAttrDict.Add(typeof(SingleBullet), new BulletBaseAttr(Bulletype.single,25, 10, 0, "images//Plants//PB00.gif", "images//Plants//PeaBulletHit.gif"));
         }
         public BulletBaseAttr GetCharacterBaseAttr(Type t)
         {
